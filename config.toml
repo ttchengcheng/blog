@@ -2,3 +2,6 @@ baseURL = "/blog/"
 languageCode = "en-us"
 title = "My New Hugo Site"
 theme = "maupassant"
+defaultContentLanguage = "zh"
+enableEmoji = true
+hasCJKLanguage = true
