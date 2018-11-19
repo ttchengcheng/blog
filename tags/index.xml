@@ -6,9 +6,73 @@
     <description>Recent content in Tags on K.Y</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
+    <lastBuildDate>Mon, 19 Nov 2018 21:45:02 +0800</lastBuildDate>
     
 	<atom:link href="https://ttchengcheng.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Electron</title>
+      <link>https://ttchengcheng.github.io/blog/tags/electron/</link>
+      <pubDate>Mon, 19 Nov 2018 21:45:02 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/electron/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macos</title>
+      <link>https://ttchengcheng.github.io/blog/tags/macos/</link>
+      <pubDate>Mon, 19 Nov 2018 21:45:02 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/macos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Makefile</title>
+      <link>https://ttchengcheng.github.io/blog/tags/makefile/</link>
+      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/makefile/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pro</title>
+      <link>https://ttchengcheng.github.io/blog/tags/pro/</link>
+      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/pro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Qmake</title>
+      <link>https://ttchengcheng.github.io/blog/tags/qmake/</link>
+      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/qmake/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Qt</title>
+      <link>https://ttchengcheng.github.io/blog/tags/qt/</link>
+      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/qt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Typescript</title>
+      <link>https://ttchengcheng.github.io/blog/tags/typescript/</link>
+      <pubDate>Mon, 19 Nov 2018 21:45:02 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/tags/typescript/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

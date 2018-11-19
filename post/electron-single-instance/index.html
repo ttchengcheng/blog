@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.41" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Electron 单实例应用程序实现要点 | K.Y</title>
+    <meta property="og:title" content="Electron 单实例应用程序实现要点 - K.Y">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2018-11-19T21:45:02&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2018-11-19T21:45:02&#43;08:00">
+        
+    <meta name="Keywords" content="golang,typescript,electron,c&#43;&#43;,javascript">
+    <meta name="description" content="Electron 单实例应用程序实现要点">
+        
+    <meta name="author" content="ttchengcheng">
+    <meta property="og:url" content="https://ttchengcheng.github.io/blog/post/electron-single-instance/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/blog/css/normalize.css">
+    
+        <link rel="stylesheet" href="/blog/css/prism.css">
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://ttchengcheng.github.io/blog">
+                        K.Y
+                    </a>
+                
+                <p class="description">dev &amp; share</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://ttchengcheng.github.io/blog">首页</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Electron 单实例应用程序实现要点</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2018年11月19日
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="https://ttchengcheng.github.io/categories/electron">Electron</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="electron-单实例应用程序实现要点">Electron 单实例应用程序实现要点</h1>
+
+<h2 id="实现方式">实现方式</h2>
+
+<p>通过 Electron app 对象的方法 <code>app.makeSingleInstance</code> 实现, 它的原型如下</p>
+
+<pre><code class="language-js">/**
+ * app.makeSingleInstance
+ *
+ * @param argv: 第二个运行实例的命令行参数
+ * @param workingDirectory: 第二个运行实例的工作目录
+ * @return true 表示这是第二个实例, false 表示这是第一个实例
+ */
+function makeSingleInstance((argv: string[], workingDirectory: String)): boolean;
+</code></pre>
+
+<p>使用方法</p>
+
+<pre><code class="language-js">const {app} = require('electron')
+let myWindow = null
+
+const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) =&gt; {
+  // ⚠️ 当启动第二个实例的时候, 第一个实例进程中的这个方法会被调用
+  // ⚠️ Electron 会保证这个回调函数会在(第一个实例进程的) app.ready 之后触发
+
+  // 在这里第一个实例进程可以获取第二个实例的命令行参数, 从而进行处理
+  // 通常我们会聚焦主窗口
+  if (myWindow) {
+    if (myWindow.isMinimized()) myWindow.restore()
+    myWindow.focus()
+  }
+})
+
+// 为了保证单实例, 退出第二个实例
+if (isSecondInstance) {
+  app.quit()
+}
+
+app.on('ready', () =&gt; {
+})
+</code></pre>
+
+<h2 id="需要注意-macos">需要注意 (<code>macOS</code>)</h2>
+
+<p>在 <code>macOS</code> 上操作系统会自动保证单实例, 所以当使用以下方式启动第二个实例时, ⚠️ <code>app.makeSingleInstance</code> 的回调函数不会触发</p>
+
+<ol>
+<li>在 Finder 中打开</li>
+<li>在命令行使用 <code>open xxx/xxx.app</code> 方式打开</li>
+<li>打开关联的文件</li>
+<li>打开关联的 url 协议, 例如 <code>thunder://...</code>, <code>vscode://...</code></li>
+</ol>
+
+<p>情况 <code>3</code> 会触发 <a href="https://electronjs.org/docs/api/app#%E4%BA%8B%E4%BB%B6-open-file-macos">Electron app 对象的 &lsquo;open-file&rsquo; 事件</a>
+情况 <code>4</code> 会触发 <a href="https://electronjs.org/docs/api/app#%E4%BA%8B%E4%BB%B6-open-url-macos">Electron app 对象的 &lsquo;open-url&rsquo; 事件</a></p>
+
+<p>要解决这个问题, 可以考虑以下方案:</p>
+
+<ol>
+<li>命令行用 <code>open -n xxx/xxx.app</code> 打开, <code>-n</code> 表示允许多开</li>
+<li>命令行用 app 里面的可执行文件 <code>xxx/xxx.app/Contents/MacOS/xxx</code> 来打开</li>
+</ol>
+
+<p>⚠️ 还有一种特殊的情况, 在两个不同的路径有相同的一个 app, 比如: <code>~/Applications/Editor.app</code> 和 <code>~/Download/Editor.app</code>. 假如先启动的是前者, 然后双击启动后者, 这种情况不会触发 <code>macOS</code> 系统的单实例机制, 而会触发 <code>app.makeSingleInstance</code> 的回调</p>
+
+<h2 id="api-变化">API 变化</h2>
+
+<p>在 <a href="https://github.com/electron/electron/blob/3-0-x-appcontainer-trials/docs/api/app.md">3.0.x 版本</a> 引入了新的 API: <code>app.requestSingleInstanceLock()</code>, <a href="https://github.com/electron/electron/blob/master/docs/api/breaking-changes.md"><code>app.makeSingleInstance</code> 计划在 4.0 版本废弃</a></p>
+
+<h3 id="app-makesingleinstance"><code>app.makeSingleInstance</code></h3>
+
+<pre><code class="language-js">// Deprecated
+app.makeSingleInstance(function (argv, cwd) {
+
+})
+// Replace with
+app.requestSingleInstanceLock()
+app.on('second-instance', function (event, argv, cwd) {
+
+})
+</code></pre>
+
+<h3 id="app-releasesingleinstance"><code>app.releaseSingleInstance</code></h3>
+
+<pre><code class="language-js">// Deprecated
+app.releaseSingleInstance()
+// Replace with
+app.releaseSingleInstanceLock()
+</code></pre>
+
+<p>从上面的代码可以看出, 新 API 的用法和之前大致相同, 只是回调改为 app 的一个事件 <code>'second-instance'</code>.</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/blog/post/qmake/">Qt .pro 文件(qmake) 入门和常用功能</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://ttchengcheng.github.io/tags/electron">Electron</a></li>
+                                
+                                <li><a href="https://ttchengcheng.github.io/tags/typescript">Typescript</a></li>
+                                
+                                <li><a href="https://ttchengcheng.github.io/tags/macos">MacOS</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://ttchengcheng.github.io/blog">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://ttchengcheng.github.io/blog/post/electron-single-instance/" title="Electron 单实例应用程序实现要点">Electron 单实例应用程序实现要点</a>
+    </li>
+    
+    <li>
+        <a href="https://ttchengcheng.github.io/blog/post/qmake/" title="Qt .pro 文件(qmake) 入门和常用功能">Qt .pro 文件(qmake) 入门和常用功能</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://ttchengcheng.github.io/categories/electron/">electron(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://ttchengcheng.github.io/categories/qt/">qt(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://ttchengcheng.github.io/tags/electron/">electron</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/macos/">macos</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/makefile/">makefile</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/pro/">pro</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/qmake/">qmake</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/qt/">qt</a>
+    
+    <a href="https://ttchengcheng.github.io/tags/typescript/">typescript</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://ttchengcheng.github.io/blog/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://ttchengcheng.github.io/blog">K.Y By ttchengcheng</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="http://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript" src="/blog/js/prism.js" async="true"></script>
+    <script type="text/javascript">
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/blog/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

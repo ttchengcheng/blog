@@ -10,5 +10,23 @@
 	<atom:link href="https://ttchengcheng.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>Electron</title>
+      <link>https://ttchengcheng.github.io/blog/categories/electron/</link>
+      <pubDate>Mon, 19 Nov 2018 21:45:02 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/categories/electron/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Qt</title>
+      <link>https://ttchengcheng.github.io/blog/categories/qt/</link>
+      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
+      
+      <guid>https://ttchengcheng.github.io/blog/categories/qt/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on K.Y</title>
-    <link>https://ttchengcheng.github.io/blog/post/</link>
-    <description>Recent content in Posts on K.Y</description>
+    <title>Electron on K.Y</title>
+    <link>https://ttchengcheng.github.io/blog/categories/electron/</link>
+    <description>Recent content in Electron on K.Y</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 19 Nov 2018 21:45:02 +0800</lastBuildDate>
     
-	<atom:link href="https://ttchengcheng.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ttchengcheng.github.io/blog/categories/electron/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://ttchengcheng.github.io/blog/post/electron-single-instance/</guid>
       <description>Electron 单实例应用程序实现要点 实现方式 通过 Electron app 对象的方法 app.makeSingleInstance 实现, 它的原型如下 /** * app.makeSingleInstance * * @param argv: 第二个运行实例的命令行参数 * @param workingDirectory: 第二个运行实例的工作目录</description>
-    </item>
-    
-    <item>
-      <title>Qt .pro 文件(qmake) 入门和常用功能</title>
-      <link>https://ttchengcheng.github.io/blog/post/qmake/</link>
-      <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
-      
-      <guid>https://ttchengcheng.github.io/blog/post/qmake/</guid>
-      <description>Qt .pro 文件(qmake) 入门和常用功能 简介 Qt 的工程是这样一个流程： 创建一个 pro 文件，使用 qmake 语法描述工程设置 运行 qmake 命令，这个命令的作用是把 pro 文件转</description>
     </item>
     
   </channel>
