@@ -10,8 +10,6 @@ tags:
 - Makefile
 ---
 
-# Qt `.pro` 文件(`qmake`) 入门和常用功能
-
 ## 简介
 
 Qt 的工程是这样一个流程：

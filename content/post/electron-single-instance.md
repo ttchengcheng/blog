@@ -9,8 +9,6 @@ tags:
 - MacOS
 ---
 
-# Electron 单实例应用程序实现要点
-
 ## 实现方式
 
 通过 Electron app 对象的方法 `app.makeSingleInstance` 实现, 它的原型如下
