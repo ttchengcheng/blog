@@ -11,6 +11,11 @@ hasCJKLanguage = true
 
 [params]
   author = "ttchengcheng"
-#   subtitle = ""
+  subtitle = "dev & share"
   keywords = "golang,typescript,electron,c++,javascript"
   description = "dev & share"
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
