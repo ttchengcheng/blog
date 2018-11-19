@@ -1,7 +1,16 @@
 baseURL = "https://ttchengcheng.github.io/blog"
-languageCode = "en-us"
-title = "My New Hugo Site"
+languageCode = "zh-CN"
+title = "K.Y"
 theme = "maupassant"
 defaultContentLanguage = "zh"
 enableEmoji = true
 hasCJKLanguage = true
+
+[author]
+    name = "ttchengcheng"
+
+[params]
+  author = "ttchengcheng"
+#   subtitle = ""
+  keywords = "golang,typescript,electron,c++,javascript"
+  description = "dev & share"
