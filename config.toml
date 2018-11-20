@@ -1,7 +1,9 @@
-baseURL = "https://ttchengcheng.github.io/blog"
-languageCode = "zh-CN"
 title = "K.Y"
-theme = "maupassant"
+baseURL = "https://ttchengcheng.github.io/blog"
+theme = "maupassant-hugo"
+
+# 语言
+languageCode = "zh-CN"
 defaultContentLanguage = "zh"
 enableEmoji = true
 hasCJKLanguage = true
