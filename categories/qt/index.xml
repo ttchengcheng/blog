@@ -17,7 +17,7 @@
       <pubDate>Mon, 19 Nov 2018 21:42:52 +0800</pubDate>
       
       <guid>https://ttchengcheng.github.io/blog/post/qmake/</guid>
-      <description>Qt .pro 文件(qmake) 入门和常用功能 简介 Qt 的工程是这样一个流程： 创建一个 pro 文件，使用 qmake 语法描述工程设置 运行 qmake 命令，这个命令的作用是把 pro 文件转</description>
+      <description>简介 Qt 的工程是这样一个流程： 创建一个 pro 文件，使用 qmake 语法描述工程设置 运行 qmake 命令，这个命令的作用是把 pro 文件转换成一个 Makefile 文件 运行 make 命令，会用生成好</description>
     </item>
     
   </channel>
